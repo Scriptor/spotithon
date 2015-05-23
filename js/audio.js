@@ -9,7 +9,7 @@ function init() {
         window.AudioContext = window.AudioContext||window.webkitAudioContext;
         context = new AudioContext();
         loader = new BufferLoader(context,
-            ['sounds/cello.wav'],
+            ['sounds/techno.mp3'],
             function(bl){
                 bufList = bl;
             }
@@ -82,8 +82,8 @@ Osc.prototype.play = function() {
     this.oscillator.type = "triangle";
     this.oscillator.frequency.value = 500;
     */
-    this.filter.type = 'bandpass';
-    this.filter.frequency.value = 500;
+    this.filter.type = 'lowpass';
+    this.filter.frequency.value = 1200;
     this.filter.Q = 100;
     this.gain.value = 0.2;
     
@@ -91,8 +91,10 @@ Osc.prototype.play = function() {
     this.cello = context.createBufferSource();
     this.cello.buffer = bufList[0];
     this.cello.loop = true;
+    /*
     this.cello.loopStart = 1;
     this.cello.loopEnd = 2.5;
+    */
     this.cello.connect(this.filter);
     this.filter.connect(this.gain);
     this.gain.connect(context.destination);
@@ -140,6 +142,14 @@ Osc.prototype.setGain = function(gain) {
 Osc.prototype.setRate = function(pbrate){
     if(pbrate <= 0.2) {pbrate = 0.2;}
     if(pbrate >= 2.5) {pbrate = 2.5;}
+
+    if(pbrate >= 0.5 && pbrate < 0.75) pbrate = 8/9;
+    if(pbrate >= 0.75 && pbrate < 0.85) pbrate = 4/5;
+    if(pbrate >= 0.85 && pbrate < 0.95) pbrate = 2/3;
+    if(pbrate >= 0.95 && pbrate < 1.1) pbrate = 1;
+    if(pbrate >= 1.1 && pbrate < 1.3) pbrate = 3/2;
+    if(pbrate >= 1.3 && pbrate < 1.6) pbrate = 5/4;
+    if(pbrate >= 1.6 && pbrate < 2.0) pbrate = 9/8;
 
     this.cello.playbackRate.value = pbrate;
 }
