@@ -1,5 +1,3 @@
-document.body.addEventListener('touchstart', function(e){ e.preventDefault(); });
-
 require.config({
   baseUrl: 'js',
   packages: [
@@ -44,6 +42,8 @@ require([
         maxIPF: 16,
         integrator: 'verlet'
     }, function(world){
+        document.body.addEventListener('touchstart', function(e){ e.preventDefault(); });
+
         var $viewport = document.getElementById('viewport');
         var viewWidth = $viewport.clientWidth;
         var viewHeight = $viewport.clientHeight;
