@@ -9,7 +9,12 @@ function init() {
         window.AudioContext = window.AudioContext||window.webkitAudioContext;
         context = new AudioContext();
         loader = new BufferLoader(context,
-            ['sounds/synth.wav'],
+            [
+            'sounds/synth.wav',
+            'sounds/cello.wav',
+            'sounds/pluck.mp3',
+            'sounds/techno.mp3'
+            ],
             function(bl){
                 bufList = bl;
             }
@@ -87,9 +92,11 @@ Osc.prototype.play = function() {
     this.filter.Q = 100;
     this.gain.value = 0.2;
     
+    var songIdx = parseInt(location.search.substr(1), 10);
+    songIdx = songIdx || 0;
     //this.oscillator.connect(this.filter);
     this.cello = context.createBufferSource();
-    this.cello.buffer = bufList[0];
+    this.cello.buffer = bufList[songIdx];
     this.cello.loop = true;
     this.cello.loopStart = 1;
     /*
