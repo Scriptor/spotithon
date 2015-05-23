@@ -32,6 +32,8 @@ Osc.prototype.play = function() {
 
 Osc.prototype.stop = function() {
     this.oscillator.stop(0);
+    this.oscillator.disconnect();
+    this.gain.disconnect();
 }
 
 Osc.prototype.toggle = function() {

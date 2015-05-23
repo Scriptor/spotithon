@@ -54,13 +54,14 @@ require([
                 vy: vy,//Math.random(),
                 radius: 20
             });
-            snd = new Osc();
+            var snd = new Osc();
             snd.toggle();
             snd.changeFreq(300*Math.sqrt(vx*vx+vy*vy));
             world.add(circle);
             setTimeout(function(){
+                snd.stop();
                 world.remove(circle);
-            }, 10000);
+            }, 20000);
         };
 
         var renderer = Physics.renderer('canvas', {
