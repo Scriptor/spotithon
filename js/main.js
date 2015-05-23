@@ -40,24 +40,18 @@ require([
     startWorld
   ]);
   */
-  Physics({
-      timestep: 1000.0/160,
-      maxIPF: 16,
-      integrator: 'verlet'
-  }, function(world){
-        var ball = Physics.body('circle', {
-          x: 50, // x-coordinate
-          y: 30, // y-coordinate
-          vx: 0.2, // velocity in x-direction
-          vy: 0.01, // velocity in y-direction
-          radius: 20
-        });
-        world.add( ball );
+    Physics({
+        timestep: 1000.0/160,
+        maxIPF: 16,
+        integrator: 'verlet'
+    }, function(world){
+        var viewWidth = 500;
+        var viewHeight = 300;
 
         var renderer = Physics.renderer('canvas', {
           el: 'viewport',
-          width: 500,
-          height: 300,
+          width: viewWidth,
+          height: viewHeight,
           meta: false, // don't display meta data
           styles: {
               // set colors for the circle bodies
@@ -72,9 +66,36 @@ require([
         // add the renderer
         world.add( renderer );
 
+
         world.on('step', function(){
             // Note: equivalent to just calling world.render() after world.step()
             world.render();
         });
+
+        var viewportBounds = Physics.aabb(0, 0, viewWidth, viewHeight);
+        // constrain objects to these bounds
+        world.add(Physics.behavior('edge-collision-detection', {
+          aabb: viewportBounds,
+          restitution: 0.99,
+          cof: 0.99
+        }));
+
+        world.add(
+            Physics.body('circle', {
+                x: 50, // x-coordinate
+                y: 30, // y-coordinate
+                vx: 0.2, // velocity in x-direction
+                vy: 0.01, // velocity in y-direction
+                radius: 20
+            })
+        );
+
+        Physics.util.ticker.on(function( time, dt ){
+
+            world.step( time );
+        });
+
+        // start the ticker
+        Physics.util.ticker.start();
     });
 });
