@@ -1,3 +1,5 @@
+document.body.addEventListener('touchstart', function(e){ e.preventDefault(); });
+
 require.config({
   baseUrl: 'js',
   packages: [
