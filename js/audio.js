@@ -9,7 +9,7 @@ function init() {
         window.AudioContext = window.AudioContext||window.webkitAudioContext;
         context = new AudioContext();
         loader = new BufferLoader(context,
-            ['sounds/techno.mp3'],
+            ['sounds/synth.wav'],
             function(bl){
                 bufList = bl;
             }
@@ -91,8 +91,8 @@ Osc.prototype.play = function() {
     this.cello = context.createBufferSource();
     this.cello.buffer = bufList[0];
     this.cello.loop = true;
-    /*
     this.cello.loopStart = 1;
+    /*
     this.cello.loopEnd = 2.5;
     */
     this.cello.connect(this.filter);
