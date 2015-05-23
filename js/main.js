@@ -54,9 +54,26 @@ require([
                 vy: vy,//Math.random(),
                 radius: 20
             });
+
+            var t2Ver, t2Hor; // time to vertical and horizontal bounds
+            var d2Ver, d2Hor;
+            var d, dx, dy;
+            d2Hor = vx > 0 ? viewWidth - x : x;
+            d2Ver = vy > 0 ? viewHeight - y : y;
+            t2Hor = d2Hor / vx;
+            t2Ver = d2Ver / vy;
+            if(t2Hor < t2Ver){
+                dy = t2Hor * vy;
+                d = Math.sqrt(d2Hor*d2Hor + dy*dy);
+            }else{
+                dx = t2Ver * vx;
+                d = Math.sqrt(dx*dx + d2Ver*d2Ver);
+            }
+
             var snd = new Osc();
             snd.toggle();
-            snd.changeFreq(300*Math.sqrt(vx*vx+vy*vy));
+            //snd.changeFreq(300*Math.sqrt(vx*vx+vy*vy));
+            snd.changeFreq(0.5*d);
             world.add(circle);
             setTimeout(function(){
                 snd.stop();
