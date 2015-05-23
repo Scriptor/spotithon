@@ -85,7 +85,7 @@ require([
             setTimeout(function(){
                 snd.stop();
                 world.remove(circle);
-            }, 1000);
+            }, 5000);
         };
 
         var renderer = Physics.renderer('canvas', {
@@ -171,10 +171,17 @@ require([
         world.on('collision-pair', function( data ){
             var stateA = data.bodyA.state;
             var stateB = data.bodyB.state;
-            var vx = data.bodyA.state.vel.x;
-            var vy = data.bodyA.state.vel.y;
-            computeTraj(stateA.pos.x, stateA.pos.y, stateA.vel.x, stateA.vel.y);
-            computeTraj(stateB.pos.x, stateB.pos.y, stateB.vel.x, stateB.vel.y);
+            if(stateA.vel.x != 0 && stateA.vel.y != 0){
+                var trajA = computeTraj(stateA.pos.x, stateA.pos.y,
+                                stateA.vel.x, stateA.vel.y);
+                data.bodyA.snd.changeFreq(0.5*trajA);
+            }
+
+            if(stateB.vel.x != 0 && stateB.vel.y != 0){
+                var trajB = computeTraj(stateB.pos.x, stateB.pos.y,
+                                stateB.vel.x, stateB.vel.y);
+                data.bodyB.snd.changeFreq(0.5*trajB);
+            }
         });
 
         // start the ticker
