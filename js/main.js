@@ -128,6 +128,8 @@ require([
         });
 
         world.on('interact:release', function( data ){
+            if(data.body) return;
+
             var dx, dy;
             var vx, vy;
             var now = Date.now();
