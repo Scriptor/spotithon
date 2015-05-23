@@ -1,20 +1,17 @@
 require.config({
-  baseUrl: 'http://wellcaffeinated.net/PhysicsJS/assets/scripts/vendor/',
+  baseUrl: 'js',
   packages: [
     {
       name: 'physicsjs',
-      location: 'physicsjs-current',
+      location: 'PhysicsJS-0.7.0/dist',
       main: 'physicsjs-full.min'
     }
   ]
 });
 
 require([
-  'physicsjs',
-  'pixi'
-], function( Physics, PIXI ){
-  window.PIXI = PIXI;
-  
+  'physicsjs'
+], function( Physics){
   var worldConfig = {
     // timestep
     timestep: 6,
@@ -116,7 +113,7 @@ require([
         world.add(Physics.behavior('sweep-prune'));
 
         // add some gravity
-        world.add( Physics.behavior('constant-acceleration') );
+        //world.add( Physics.behavior('constant-acceleration') );
 
         Physics.util.ticker.on(function( time, dt ){
 
@@ -137,8 +134,8 @@ require([
 
             dx = data.x - startX;
             dy = data.y - startY;
-            vx = dx/(now - startTime);
-            vy = dy/(now - startTime);
+            vx = dx/(now - startTime) * 0.2;
+            vy = dy/(now - startTime) * 0.2;
             addBall(data.x, data.y, vx, vy);
         });
         //addEvents();
