@@ -1,10 +1,14 @@
-- choose physics library
-- set up bounding box
-- handle mouse events
- - make point on click
+X choose physics library
+X set up bounding box
+X handle mouse events
+ X make point on click
  - on release calculate trajectory and velocity
-- make point bounce correctly inside box
+X make point bounce correctly inside box
 
-- get web audio working
+X get web audio working
  - pitch: function of trajectory bounding walls
-  - oscillator
+  X oscillator
+  - filter
+  - gain ramp
+  
+- time out function of velocity?

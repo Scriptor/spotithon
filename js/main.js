@@ -85,7 +85,7 @@ require([
             setTimeout(function(){
                 snd.stop();
                 world.remove(circle);
-            }, 20000);
+            }, 1000);
         };
 
         var renderer = Physics.renderer('canvas', {
