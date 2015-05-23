@@ -2,29 +2,24 @@ var context;
 var loader;
 var bufList;
 var loadCb;
+var cb;
 window.addEventListener('load', init, false);
 function init() {
     try {
         window.AudioContext = window.AudioContext||window.webkitAudioContext;
         context = new AudioContext();
-        loadCb();
+        loader = new BufferLoader(context,
+            ['sounds/cello.wav'],
+            function(bl){
+                bufList = bl;
+            }
+        );
+        loader.load();
         // var snd = new Osc()
         // snd.toggle();
     } catch(e) {
         alert('Web Audio API is not supported in this browser');
     }
-}
-
-function loadSounds(cb){
-    loadCb = function(){
-        loader = new BufferLoader(context,
-                ['sounds/cello.wav'],
-                function(bl){
-                    bufList = bl;
-                    cb();
-                });
-        loader.load();
-    };
 }
 
 function Osc() {

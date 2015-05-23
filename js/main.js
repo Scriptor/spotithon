@@ -190,8 +190,6 @@ require([
         });
 
         // start the ticker
-        loadSounds(function(){
-            Physics.util.ticker.start();
-        });
+        Physics.util.ticker.start();
     });
 });
