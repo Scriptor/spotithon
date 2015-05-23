@@ -89,6 +89,7 @@ Osc.prototype.play = function() {
     */
     this.filter.type = 'bandpass';
     this.filter.frequency.value = 500;
+    this.filter.Q = 100;
     this.gain.value = 0.2;
     
     //this.oscillator.connect(this.filter);
@@ -131,4 +132,12 @@ Osc.prototype.changeFreq = function(freq) {
 }
 Osc.prototype.changeFilterFreq = function(freq) {
     this.filter.frequency.value = freq;
+}
+
+Osc.prototype.filterSweep = function(freq) {
+    this.filter.frequency.setTargetAtTime(freq, context.currentTime, 0.3);
+}
+
+Osc.prototype.setGain = function(gain) {
+    this.gain.value = gain;
 }

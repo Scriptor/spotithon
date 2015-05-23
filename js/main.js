@@ -29,14 +29,6 @@ require([
     sleepTimeLimit: 500
   };
   
-  /*
-  Physics( worldConfig, [
-    initWorld,
-    addInteraction,
-    addBodies,
-    startWorld
-  ]);
-  */
     Physics({
         timestep: 1000.0/160,
         maxIPF: 16,
@@ -73,17 +65,24 @@ require([
                 y: y,
                 vx: vx,//Math.random(),
                 vy: vy,//Math.random(),
-                radius: 20
+                radius: 20, 
             });
+            circle.styles = '#'+Math.floor(Math.random()*16777215).toString(16);
 
             var d = computeTraj(x, y, vx, vy);
+            world.add(circle);
 
             var snd = new Osc();
             snd.play();
             //snd.changeFreq(300*Math.sqrt(vx*vx+vy*vy));
+            if(isNaN(d)) {
+                d = 0.1;
+            }
+            
             snd.changeFreq(0.5*d);
+            snd.changeFilterFreq(0.5*d);
+            snd.setGain(1/world.getBodies().length);
             circle.snd = snd;
-            world.add(circle);
             setTimeout(function(){
                 snd.stop();
                 world.remove(circle);
@@ -101,7 +100,7 @@ require([
                   strokeStyle: 'hsla(60, 37%, 17%, 1)',
                   lineWidth: 1,
                   fillStyle: 'hsla(60, 37%, 57%, 0.8)',
-                  angleIndicator: 'hsla(60, 37%, 17%, 0.4)'
+                  //angleIndicator: 'hsla(60, 37%, 17%, 0.4)'
               }
           }
         });
