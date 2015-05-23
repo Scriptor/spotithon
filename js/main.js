@@ -51,6 +51,9 @@ require([
                 vy: vy,//Math.random(),
                 radius: 20
             });
+            snd = new Osc();
+            snd.toggle();
+            snd.changeFreq(300*Math.sqrt(vx*vx+vy*vy));
             world.add(circle);
             setTimeout(function(){
                 world.remove(circle);
