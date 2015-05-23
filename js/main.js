@@ -79,7 +79,7 @@ require([
             var d = computeTraj(x, y, vx, vy);
 
             var snd = new Osc();
-            snd.toggle();
+            snd.play();
             //snd.changeFreq(300*Math.sqrt(vx*vx+vy*vy));
             snd.changeFreq(0.5*d);
             circle.snd = snd;
@@ -176,17 +176,23 @@ require([
             if(stateA.vel.x != 0 && stateA.vel.y != 0){
                 var trajA = computeTraj(stateA.pos.x, stateA.pos.y,
                                 stateA.vel.x, stateA.vel.y);
-                data.bodyA.snd.changeFreq(0.5*trajA);
+                var pbrate = trajA / 1000;
+                data.bodyA.snd.cello.playbackRate.value = pbrate;
+                //data.bodyA.snd.changeFreq(0.5*trajA);
             }
 
             if(stateB.vel.x != 0 && stateB.vel.y != 0){
                 var trajB = computeTraj(stateB.pos.x, stateB.pos.y,
                                 stateB.vel.x, stateB.vel.y);
-                data.bodyB.snd.changeFreq(0.5*trajB);
+                var pbrate = trajB / 1000;
+                data.bodyB.snd.cello.playbackRate.value = pbrate;
+                //data.bodyB.snd.changeFreq(0.5*trajB);
             }
         });
 
         // start the ticker
-        Physics.util.ticker.start();
+        loadSounds(function(){
+            Physics.util.ticker.start();
+        });
     });
 });
