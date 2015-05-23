@@ -52,6 +52,9 @@ require([
                 radius: 20
             });
             world.add(circle);
+            setTimeout(function(){
+                world.remove(circle);
+            }, 10000);
         };
 
         var viewWidth = document.getElementById('viewport').clientWidth;
@@ -91,22 +94,6 @@ require([
 
         var i, circle ,circles = [];
         var x, y, vx, vy;
-        /*
-        for(i=0; i<10; i++){
-            x = Math.random() * viewWidth;
-            y = Math.random() * viewHeight;
-            vx = Math.random();
-            vy = Math.random();
-            circle = Physics.body('circle', {
-                x: x,
-                y: y,
-                vx: vx,
-                vy: vy,
-                radius: 20
-            });
-            world.add(circle);
-        }
-        */
 
         world.add(Physics.behavior('body-impulse-response'));
         world.add(Physics.behavior('body-collision-detection'));
@@ -140,7 +127,6 @@ require([
             vy = dy/(now - startTime) * 0.2;
             addBall(data.x, data.y, vx, vy);
         });
-        //addEvents();
         // start the ticker
         Physics.util.ticker.start();
     });
