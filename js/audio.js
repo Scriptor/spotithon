@@ -119,7 +119,6 @@ Osc.prototype.stop = function() {
 Osc.prototype.toggle = function() {
   (this.isPlaying ? this.stop() : this.play());
   this.isPlaying = !this.isPlaying;
-
 };
 
 Osc.prototype.changeFreq = function(freq) {
@@ -140,6 +139,7 @@ Osc.prototype.setGain = function(gain) {
 Osc.prototype.setRate = function(pbrate){
     if(pbrate <= 0.2) {pbrate = 0.2;}
     if(pbrate >= 2.5) {pbrate = 2.5;}
+    if(isNaN(pbrate) || !isFinite(pbrate)) {pbrate = 1.0;}
 
     this.cello.playbackRate.value = pbrate;
 }

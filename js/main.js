@@ -55,7 +55,6 @@ require([
                 dx = t2Ver * vx;
                 d = Math.sqrt(dx*dx + d2Ver*d2Ver);
             }
-
             return d;
         }
 
