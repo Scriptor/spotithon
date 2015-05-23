@@ -64,7 +64,8 @@ require([
                 y: y,
                 vx: vx,//Math.random(),
                 vy: vy,//Math.random(),
-                radius: 20, 
+                radius: Math.sqrt(viewWidth*viewWidth+viewHeight*viewHeight)/32
+                // radius: 20,
             });
             circle.styles = '#'+Math.floor(Math.random()*16777215).toString(16);
 
