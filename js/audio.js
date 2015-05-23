@@ -91,7 +91,7 @@ Osc.prototype.play = function() {
     this.cello = context.createBufferSource();
     this.cello.buffer = bufList[0];
     this.cello.loop = true;
-    this.cello.loopStart = 0.5;
+    this.cello.loopStart = 1;
     this.cello.loopEnd = 2.5;
     this.cello.connect(this.filter);
     this.filter.connect(this.gain);
