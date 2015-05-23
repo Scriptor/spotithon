@@ -43,6 +43,9 @@ require([
         integrator: 'verlet'
     }, function(world){
         var $viewport = document.getElementById('viewport');
+        var viewWidth = $viewport.clientWidth;
+        var viewHeight = $viewport.clientHeight;
+
         var addBall = function(x, y, vx, vy){
             var circle = Physics.body('circle', {
                 x: x,
@@ -59,9 +62,6 @@ require([
                 world.remove(circle);
             }, 10000);
         };
-
-        var viewWidth = document.getElementById('viewport').clientWidth;
-        var viewHeight = document.getElementById('viewport').clientHeight;
 
         var renderer = Physics.renderer('canvas', {
           el: 'viewport',
