@@ -4,8 +4,8 @@ function init() {
     try {
         window.AudioContext = window.AudioContext||window.webkitAudioContext;
         context = new AudioContext();
-        var snd = new Osc()
-        snd.toggle();
+        // var snd = new Osc()
+        // snd.toggle();
     } catch(e) {
         alert('Web Audio API is not supported in this browser');
     }
@@ -39,3 +39,7 @@ Osc.prototype.toggle = function() {
   this.isPlaying = !this.isPlaying;
 
 };
+
+Osc.prototype.changeFreq = function(freq) {
+    this.oscillator.frequency.value = freq;
+}
