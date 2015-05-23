@@ -45,8 +45,8 @@ require([
         maxIPF: 16,
         integrator: 'verlet'
     }, function(world){
-        var viewWidth = 500;
-        var viewHeight = 300;
+        var viewWidth = document.getElementById('viewport').clientWidth;
+        var viewHeight = document.getElementById('viewport').clientHeight;
 
         var renderer = Physics.renderer('canvas', {
           el: 'viewport',
@@ -89,6 +89,11 @@ require([
                 radius: 20
             })
         );
+
+        world.add( Physics.behavior('body-impulse-response') );
+
+        // add some gravity
+        world.add( Physics.behavior('constant-acceleration') );
 
         Physics.util.ticker.on(function( time, dt ){
 
