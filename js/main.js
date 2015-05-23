@@ -46,17 +46,15 @@ require([
         integrator: 'verlet'
     }, function(world){
         var $viewport = document.getElementById('viewport');
-        var addEvents = function(){
-            $viewport.addEventListener('click', function(e){
-                var circle = Physics.body('circle', {
-                    x: e.clientX,
-                    y: e.clientY,
-                    vx: 0,//Math.random(),
-                    vy: 0,//Math.random(),
-                    radius: 20
-                });
-                world.add(circle);
+        var addBall = function(x, y, vx, vy){
+            var circle = Physics.body('circle', {
+                x: x,
+                y: y,
+                vx: vx,//Math.random(),
+                vy: vy,//Math.random(),
+                radius: 20
             });
+            world.add(circle);
         };
 
         var viewWidth = document.getElementById('viewport').clientWidth;
@@ -125,7 +123,25 @@ require([
             world.step( time );
         });
 
-        addEvents();
+        var startX, startY, startTime;
+        world.on('interact:poke', function(data){
+            startX = data.x;
+            startY = data.y;
+            startTime = Date.now();
+        });
+
+        world.on('interact:release', function( data ){
+            var dx, dy;
+            var vx, vy;
+            var now = Date.now();
+
+            dx = data.x - startX;
+            dy = data.y - startY;
+            vx = dx/(now - startTime);
+            vy = dy/(now - startTime);
+            addBall(data.x, data.y, vx, vy);
+        });
+        //addEvents();
         // start the ticker
         Physics.util.ticker.start();
     });
