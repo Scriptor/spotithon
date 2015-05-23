@@ -79,7 +79,8 @@ require([
             }
             
             var pbrate = d / Math.sqrt(viewWidth*viewWidth+viewHeight*viewHeight);
-            snd.setRate(pbrate);
+            //snd.setRate(pbrate);
+            snd.setRate(Math.sqrt(vx*vx + vy+vy));
             //snd.changeFilterFreq(0.5*d);
             snd.setGain(1/world.getBodies().length);
             circle.snd = snd;
@@ -173,17 +174,23 @@ require([
             var stateA = data.bodyA.state;
             var stateB = data.bodyB.state;
             if(data.bodyA.snd){
+                var vx = stateA.vel.x;
+                var vy = stateA.vel.y;
                 var trajA = computeTraj(stateA.pos.x, stateA.pos.y,
                                 stateA.vel.x, stateA.vel.y);
                 var pbrate = trajA / Math.sqrt(viewWidth*viewWidth+viewHeight*viewHeight);
+                pbrate = Math.sqrt(vx*vx + vy*vy);
                 data.bodyA.snd.setRate(pbrate);
                 //data.bodyA.snd.changeFreq(0.5*trajA);
             }
 
             if(data.bodyB.snd){
+                var vx = stateB.vel.x;
+                var vy = stateB.vel.y;
                 var trajB = computeTraj(stateB.pos.x, stateB.pos.y,
                                 stateB.vel.x, stateB.vel.y);
                 var pbrate = trajB / Math.sqrt(viewWidth*viewWidth+viewHeight*viewHeight);
+                pbrate = Math.sqrt(vx*vx + vy*vy);
                 data.bodyB.snd.setRate(pbrate);
                 //data.bodyB.snd.changeFreq(0.5*trajB);
             }
