@@ -45,6 +45,20 @@ require([
         maxIPF: 16,
         integrator: 'verlet'
     }, function(world){
+        var $viewport = document.getElementById('viewport');
+        var addEvents = function(){
+            $viewport.addEventListener('click', function(e){
+                var circle = Physics.body('circle', {
+                    x: e.clientX,
+                    y: e.clientY,
+                    vx: 0,//Math.random(),
+                    vy: 0,//Math.random(),
+                    radius: 20
+                });
+                world.add(circle);
+            });
+        };
+
         var viewWidth = document.getElementById('viewport').clientWidth;
         var viewHeight = document.getElementById('viewport').clientHeight;
 
@@ -65,7 +79,7 @@ require([
         });
         // add the renderer
         world.add( renderer );
-
+        world.add(Physics.behavior('interactive', {el: renderer.container}));
 
         world.on('step', function(){
             // Note: equivalent to just calling world.render() after world.step()
@@ -80,17 +94,28 @@ require([
           cof: 0.99
         }));
 
-        world.add(
-            Physics.body('circle', {
-                x: 50, // x-coordinate
-                y: 30, // y-coordinate
-                vx: 0.2, // velocity in x-direction
-                vy: 0.01, // velocity in y-direction
+        var i, circle ,circles = [];
+        var x, y, vx, vy;
+        /*
+        for(i=0; i<10; i++){
+            x = Math.random() * viewWidth;
+            y = Math.random() * viewHeight;
+            vx = Math.random();
+            vy = Math.random();
+            circle = Physics.body('circle', {
+                x: x,
+                y: y,
+                vx: vx,
+                vy: vy,
                 radius: 20
-            })
-        );
+            });
+            world.add(circle);
+        }
+        */
 
-        world.add( Physics.behavior('body-impulse-response') );
+        world.add(Physics.behavior('body-impulse-response'));
+        world.add(Physics.behavior('body-collision-detection'));
+        world.add(Physics.behavior('sweep-prune'));
 
         // add some gravity
         world.add( Physics.behavior('constant-acceleration') );
@@ -100,6 +125,7 @@ require([
             world.step( time );
         });
 
+        addEvents();
         // start the ticker
         Physics.util.ticker.start();
     });
