@@ -79,8 +79,9 @@ require([
                 d = 0.1;
             }
             
-            snd.changeFreq(0.5*d);
-            snd.changeFilterFreq(0.5*d);
+            var pbrate = d / Math.sqrt(viewWidth*viewWidth+viewHeight*viewHeight);
+            snd.setRate(pbrate);
+            //snd.changeFilterFreq(0.5*d);
             snd.setGain(1/world.getBodies().length);
             circle.snd = snd;
             setTimeout(function(){
@@ -172,24 +173,19 @@ require([
         world.on('collision-pair', function( data ){
             var stateA = data.bodyA.state;
             var stateB = data.bodyB.state;
-            if(stateA.vel.x != 0 && stateA.vel.y != 0){
+            if(data.bodyA.snd){
                 var trajA = computeTraj(stateA.pos.x, stateA.pos.y,
                                 stateA.vel.x, stateA.vel.y);
                 var pbrate = trajA / Math.sqrt(viewWidth*viewWidth+viewHeight*viewHeight);
-                if(pbrate <= 0.2) {pbrate = 0.2;}
-                if(pbrate >= 2.5) {pbrate = 2.5;}
-                
-                data.bodyA.snd.cello.playbackRate.value = pbrate;
+                data.bodyA.snd.setRate(pbrate);
                 //data.bodyA.snd.changeFreq(0.5*trajA);
             }
 
-            if(stateB.vel.x != 0 && stateB.vel.y != 0){
+            if(data.bodyB.snd){
                 var trajB = computeTraj(stateB.pos.x, stateB.pos.y,
                                 stateB.vel.x, stateB.vel.y);
                 var pbrate = trajB / Math.sqrt(viewWidth*viewWidth+viewHeight*viewHeight);
-                if(pbrate <= 0.2) {pbrate = 0.2;}
-                if(pbrate >= 2.5) {pbrate = 2.5;}
-                data.bodyB.snd.cello.playbackRate.value = pbrate;
+                data.bodyB.snd.setRate(pbrate);
                 //data.bodyB.snd.changeFreq(0.5*trajB);
             }
         });

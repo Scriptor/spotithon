@@ -136,3 +136,10 @@ Osc.prototype.filterSweep = function(freq) {
 Osc.prototype.setGain = function(gain) {
     this.gain.value = gain;
 }
+
+Osc.prototype.setRate = function(pbrate){
+    if(pbrate <= 0.2) {pbrate = 0.2;}
+    if(pbrate >= 2.5) {pbrate = 2.5;}
+
+    this.cello.playbackRate.value = pbrate;
+}
