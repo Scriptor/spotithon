@@ -27,13 +27,18 @@ Osc.prototype.play = function() {
     this.gain.connect(context.destination);
     
     this.oscillator[this.oscillator.start ? 'start' : 'noteOn'](0);
-    
+    this.isPlaying = true;
 }
 
 Osc.prototype.stop = function() {
-    this.oscillator.stop(0);
-    this.oscillator.disconnect();
-    this.gain.disconnect();
+    this.isPlaying = false;
+    this.gain.gain.setTargetAtTime(0, context.currentTime, 0.3);
+    var temp = this;
+    setTimeout(function(){
+        temp.oscillator.stop(0);
+        temp.oscillator.disconnect();
+        temp.gain.disconnect();
+    }, 3000);    
 }
 
 Osc.prototype.toggle = function() {
