@@ -175,7 +175,10 @@ require([
             if(stateA.vel.x != 0 && stateA.vel.y != 0){
                 var trajA = computeTraj(stateA.pos.x, stateA.pos.y,
                                 stateA.vel.x, stateA.vel.y);
-                var pbrate = trajA / 1000;
+                var pbrate = trajA / Math.sqrt(viewWidth*viewWidth+viewHeight*viewHeight);
+                if(pbrate <= 0.2) {pbrate = 0.2;}
+                if(pbrate >= 2.5) {pbrate = 2.5;}
+                
                 data.bodyA.snd.cello.playbackRate.value = pbrate;
                 //data.bodyA.snd.changeFreq(0.5*trajA);
             }
@@ -183,7 +186,9 @@ require([
             if(stateB.vel.x != 0 && stateB.vel.y != 0){
                 var trajB = computeTraj(stateB.pos.x, stateB.pos.y,
                                 stateB.vel.x, stateB.vel.y);
-                var pbrate = trajB / 1000;
+                var pbrate = trajB / Math.sqrt(viewWidth*viewWidth+viewHeight*viewHeight);
+                if(pbrate <= 0.2) {pbrate = 0.2;}
+                if(pbrate >= 2.5) {pbrate = 2.5;}
                 data.bodyB.snd.cello.playbackRate.value = pbrate;
                 //data.bodyB.snd.changeFreq(0.5*trajB);
             }
