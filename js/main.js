@@ -46,15 +46,7 @@ require([
         var viewWidth = $viewport.clientWidth;
         var viewHeight = $viewport.clientHeight;
 
-        var addBall = function(x, y, vx, vy){
-            var circle = Physics.body('circle', {
-                x: x,
-                y: y,
-                vx: vx,//Math.random(),
-                vy: vy,//Math.random(),
-                radius: 20
-            });
-
+        var computeTraj = function(x, y, vx, vy){
             var t2Ver, t2Hor; // time to vertical and horizontal bounds
             var d2Ver, d2Hor;
             var d, dx, dy;
@@ -70,10 +62,25 @@ require([
                 d = Math.sqrt(dx*dx + d2Ver*d2Ver);
             }
 
+            return d;
+        }
+
+        var addBall = function(x, y, vx, vy){
+            var circle = Physics.body('circle', {
+                x: x,
+                y: y,
+                vx: vx,//Math.random(),
+                vy: vy,//Math.random(),
+                radius: 20
+            });
+
+            var d = computeTraj(x, y, vx, vy);
+
             var snd = new Osc();
             snd.toggle();
             //snd.changeFreq(300*Math.sqrt(vx*vx+vy*vy));
             snd.changeFreq(0.5*d);
+            circle.snd = snd;
             world.add(circle);
             setTimeout(function(){
                 snd.stop();
@@ -148,6 +155,28 @@ require([
             vy = dy/(now - startTime) * 0.2;
             addBall(data.x, data.y, vx, vy);
         });
+
+        world.on('collisions:detected', function( data ){
+            var c;
+            for (var i = 0, l = data.collisions.length; i < l; i++){
+                c = data.collisions[ i ];
+                world.emit('collision-pair', {
+                    bodyA: c.bodyA,
+                    bodyB: c.bodyB
+                });
+            }
+        });
+
+        // subscribe to collision pair
+        world.on('collision-pair', function( data ){
+            var stateA = data.bodyA.state;
+            var stateB = data.bodyB.state;
+            var vx = data.bodyA.state.vel.x;
+            var vy = data.bodyA.state.vel.y;
+            computeTraj(stateA.pos.x, stateA.pos.y, stateA.vel.x, stateA.vel.y);
+            computeTraj(stateB.pos.x, stateB.pos.y, stateB.vel.x, stateB.vel.y);
+        });
+
         // start the ticker
         Physics.util.ticker.start();
     });
