@@ -150,6 +150,7 @@ Osc.prototype.setRate = function(pbrate){
     if(pbrate >= 2.5) {pbrate = 2.5;}
     if(isNaN(pbrate) || !isFinite(pbrate)) {pbrate = 1.0;}
 
+    if(pbrate >= 0.2 && pbrate < 0.5) pbrate = 1/2;
     if(pbrate >= 0.5 && pbrate < 0.75) pbrate = 8/9;
     if(pbrate >= 0.75 && pbrate < 0.85) pbrate = 4/5;
     if(pbrate >= 0.85 && pbrate < 0.95) pbrate = 2/3;
@@ -157,6 +158,8 @@ Osc.prototype.setRate = function(pbrate){
     if(pbrate >= 1.1 && pbrate < 1.3) pbrate = 3/2;
     if(pbrate >= 1.3 && pbrate < 1.6) pbrate = 5/4;
     if(pbrate >= 1.6 && pbrate < 2.0) pbrate = 9/8;
+    if(pbrate >= 2.0 && pbrate <= 2.5) pbrate = 2;
+    
 
     this.cello.playbackRate.value = pbrate;
 }
